@@ -1,0 +1,55 @@
+'use client';
+
+// ******** Iports ********
+import { useState } from "react";
+import { InputText } from "@/types/types-and-interface";
+
+// ******** Component Declaration ********
+const InputTypeText = ({
+  type,
+  placeholder,
+  suffixIcon,
+  prefixIcon,
+  onBlur,
+  value,
+  errorMessage,
+  onChange,
+  inputStyle
+}: InputText) => {
+
+  // State to handle when focus the border of input to be blue
+  const [isFocus, setIsFocus] = useState(false);
+  
+  // Define the style for the inputText
+  const inputStyles = `flex items-center border-1 min-w-full p-[0.1rem] rounded-md focus:outline ${
+    isFocus ? 'border-blue-600' : 'border-[#E2E8F0]'
+  }`;
+
+  // Custom blur handler to manage both the focus state and form props
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocus(false); // Clear focus state
+    onBlur?.(event); // Call form's onBlur if provided
+  };
+
+  return (
+    <>
+      <div className={inputStyles}>
+          {suffixIcon && (<span>{suffixIcon}</span>)}
+        <input
+          type={type}
+          onBlur={handleBlur}
+          onFocus={() => setIsFocus(true)}
+          onChange={onChange}
+          className={inputStyle}
+          placeholder={placeholder}
+          value={value}
+        />
+        {prefixIcon && (<span>{prefixIcon}</span>)}
+      </div>
+      {errorMessage && <p className="text-sm ml-1 text-red-500">{errorMessage}</p>}
+    </>
+  );
+};
+
+// ******** Export Declaration ********
+export default InputTypeText;

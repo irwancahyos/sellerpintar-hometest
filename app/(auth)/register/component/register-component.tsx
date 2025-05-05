@@ -1,0 +1,172 @@
+'use client'
+// ******** Imports ********
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import InputTypeText from "@/components/input/input-text";
+import InputTypeSelect from "@/components/input/input-select";
+import GeneralButton from "@/components/button/general-button";
+import InputPassword from "@/components/input/input-password";
+import LogoImage from "../../../../assets/logo.png";
+import { useState } from "react";
+import { Eye, EyeOff } from 'lucide-react';
+import { InputSelect } from "@/types/types-and-interface";
+import { useForm, Controller } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
+
+// ******** Component Declaration ********
+function RegisterComponent() {
+
+  // state declaration 
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
+
+  // creating a schema for strings
+  const registerSchema = z.object({
+    username: z.string().nonempty("Username field cannot be empty"),
+    password: z.string().nonempty("Password field cannot be empety").min(8, "Password must be at least 8 characters long"),
+    role: z.string().nonempty("Please choose role"),
+  });
+
+  // Form initialization
+  const {
+    formState: { errors, isValid },
+    control,
+    reset,
+    handleSubmit,
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+      role: "",
+    },
+    mode: 'all',
+  });
+
+  // Variable declaration
+  const dropDownSelectRole: InputSelect[] = [{label: 'User', value: "user"}, {label: "Admin", value: "admin"}];
+
+  /**
+   * Function to handle when eye icon in the input password clicked
+   */
+  const handleEyeClicked = () => {
+    setIsEyeOpen(!isEyeOpen);
+  }
+
+  /**
+   * Function to handle when form submited
+   */
+  const handleFormSubmit = () => {
+    const formValue = control?._formValues;
+
+    if(isValid) {
+      console.log(formValue, 'ini form valuenya')
+      toast.success("Register successfully");
+    } else {
+      // handle error
+    }
+
+    // reset form
+    reset();
+  }
+
+  return (
+    <>
+      <div className="w-[400px] min-h-[452px] bg-[#FFFFFF] max-[500px]:w-full max-[500px]:flex max-[500px]:items-center max-[500px]:flex-col max-[500px]:p-0 max-[500px]:px-7 max-[500px]:justify-center max-[500px]:rounded-none max-[500px]:min-h-screen rounded-[12px] p-4">
+        {/* Register Title Section */}
+        <header className="w-full mt-5 max-[500px]:mt-0 flex justify-center items-center mb-5">
+          <img className="w-[7rem] max-[500px]:w-[8rem]" src={LogoImage?.src} alt="Image of header register" />
+        </header>
+
+        {/* Register Form Section */}
+        <form className="w-full pb-4">
+
+          {/* Input Username Section */}
+          <div>
+            <label className="text-sm font-semibold">Username</label>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputTypeText
+                  onChange={onChange}
+                  errorMessage={errors?.username?.message}
+                  onBlur={onBlur}
+                  value={value}
+                  placeholder="Input username"
+                  inputStyle="focus:outline-none w-full h-[2.2rem] text-sm p-[0.4rem]"
+                  type="text"
+                />
+              )}
+              name="username"
+            />
+          </div>
+
+          {/* Input Password Section */}
+          <div className="mt-3">
+            <label className="text-sm font-semibold">Password</label>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputPassword
+                  onChange={onChange}
+                  errorMessage={errors?.password?.message}
+                  onBlur={onBlur}
+                  value={value}
+                  type={isEyeOpen ? 'text' : 'password'}
+                  preffixIcon={
+                    isEyeOpen ? (
+                      <Eye className="cursor-pointer opacity-50" onClick={handleEyeClicked} size={16} />
+                    ) : (
+                      <EyeOff className="cursor-pointer opacity-50" onClick={handleEyeClicked} size={16} />
+                    )
+                  }
+                  inputStyle="focus:outline-none w-full text-sm h-[2.2rem] p-[0.4rem]"
+                  placeholder="Input password"
+                />
+              )}
+              name="password"
+            />
+          </div>
+
+          {/* Select Role Section */}
+          <div className="mt-3">
+            <label className="text-sm font-semibold">Role</label>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputTypeSelect
+                  onChange={onChange}
+                  errorMessage={errors?.role?.message}
+                  onBlur={onBlur}
+                  value={value}
+                  placeholder="Select Role"
+                  dropDownValue={dropDownSelectRole}
+                  inputStyle="focus:outline-none w-full text-sm p-[0.1rem] text-sm w-full h-[2.2rem]"
+                />
+              )}
+              name="role"
+            />
+          </div>
+
+          {/* Button Submit Section */}
+          <div className="mt-7">
+            <GeneralButton onClick={handleSubmit(handleFormSubmit)} styles="bg-[#2563EB] cursor-pointer rounded-sm w-full text-white text-sm px-2 py-[0.45rem]" text="Register" />
+          </div>
+
+          {/* Redirect Login Section */}
+          <div className="mt-7">
+            <p className="text-center text-sm">
+              Already have account ?
+              <span className="ml-1">
+                <GeneralButton patchName="#" styles="underline text-blue-700" text="Login" />
+              </span>
+            </p>
+          </div>
+        </form>
+        <Toaster position="bottom-right" />
+      </div>
+    </>
+  );
+}
+
+// ******** Export Declaration ********
+export default RegisterComponent;
