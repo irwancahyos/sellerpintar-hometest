@@ -12,6 +12,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { InputSelect } from "@/types/types-and-interface";
 import { useForm, Controller } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
+import { registerUser } from "@/lib/api/auth";
 
 // ******** Component Declaration ********
 function RegisterComponent() {
@@ -43,7 +44,7 @@ function RegisterComponent() {
   });
 
   // Variable declaration
-  const dropDownSelectRole: InputSelect[] = [{label: 'User', value: "user"}, {label: "Admin", value: "admin"}];
+  const dropDownSelectRole: InputSelect[] = [{label: 'User', value: "User"}, {label: "Admin", value: "Admin"}];
 
   /**
    * Function to handle when eye icon in the input password clicked
@@ -55,12 +56,26 @@ function RegisterComponent() {
   /**
    * Function to handle when form submited
    */
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const formValue = control?._formValues;
 
-    if(isValid) {
-      console.log(formValue, 'ini form valuenya')
-      toast.success("Register successfully");
+    if(isValid) {  
+      try {
+        const res = await registerUser({
+          username: formValue?.username,
+          password: formValue?.password,
+          role: formValue?.role
+        })
+
+        // handle token atau redirect
+        console.log(res);
+        toast.success("Register successfully");
+        // redirect to login page
+        window.location.href = '/login';
+      } catch(e) {
+        console.error(e);
+        toast.success("Failed Register");
+      }
     } else {
       // handle error
     }
@@ -93,6 +108,7 @@ function RegisterComponent() {
                   value={value}
                   placeholder="Input username"
                   inputStyle="focus:outline-none w-full h-[2.2rem] text-sm p-[0.4rem]"
+                  inputStyleFromComponent="flex items-center border-1 min-w-full p-[0.1rem] rounded-md focus:outline"
                   type="text"
                 />
               )}
@@ -141,6 +157,7 @@ function RegisterComponent() {
                   placeholder="Select Role"
                   dropDownValue={dropDownSelectRole}
                   inputStyle="focus:outline-none w-full text-sm p-[0.1rem] text-sm w-full h-[2.2rem]"
+                  inputStyleFromComponent="flex p-[0.1rem] items-center pr-2 border-1 min-w-full rounded-md focus:outline"
                 />
               )}
               name="role"
@@ -157,7 +174,7 @@ function RegisterComponent() {
             <p className="text-center text-sm">
               Already have account ?
               <span className="ml-1">
-                <GeneralButton patchName="#" styles="underline text-blue-700" text="Login" />
+                <GeneralButton patchName="/login" styles="underline text-blue-700" text="Login" />
               </span>
             </p>
           </div>

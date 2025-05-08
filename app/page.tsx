@@ -1,5 +1,8 @@
+// ******** Imports ********
+import { redirect } from "next/navigation";
+
+// ******** Component Declaration ********
 export default function Home() {
-  return (
-    <></>
-  );
+  // Redirect all user to login page
+  redirect("/login");
 }

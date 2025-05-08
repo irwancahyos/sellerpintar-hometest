@@ -5,7 +5,7 @@ import { useState } from "react";
 import { InputSelect, SelectRole } from "@/types/types-and-interface";
 
 // ******** Component Declaration ********
-const InputTypeSelect = ({placeholder, suffixIcon, prefixIcon, onBlur, value, errorMessage, onChange, inputStyle,dropDownValue}: SelectRole) => {
+const InputTypeSelect = ({placeholder, suffixIcon, prefixIcon, onBlur, value, errorMessage, onChange, inputStyle, dropDownValue, inputStyleFromComponent}: SelectRole) => {
 
   // State declaration
   const [isUserSelected, setIsUserSelected] = useState(false);
@@ -23,14 +23,11 @@ const InputTypeSelect = ({placeholder, suffixIcon, prefixIcon, onBlur, value, er
   };
    
   // Define the style for the inputText
-  const inputStyles = `flex p-[0.1rem] items-center border-1 min-w-full rounded-md focus:outline ${
-    errorMessage
-      ? 'border-red-500': 'border-[#E2E8F0]'
-  }`
+  const inputStyles = ` ${errorMessage ? 'border-red-500' : 'border-[#E2E8F0]'}`;
 
   return (
     <>
-      <div className={`${inputStyles} pr-2`}>
+      <div className={`${inputStyles} ${inputStyleFromComponent}`}>
         {suffixIcon && <span>{suffixIcon}</span>}
         <select onBlur={onBlur} value={value} onChange={handleSelectChange} className={`${inputStyle} ${!isUserSelected ? 'opacity-50' : 'opacity-100'}`}>
           {/* add placeholder manual */}
@@ -48,3 +45,4 @@ const InputTypeSelect = ({placeholder, suffixIcon, prefixIcon, onBlur, value, er
 
 // ******** Export Declaration ********
 export default InputTypeSelect;
+

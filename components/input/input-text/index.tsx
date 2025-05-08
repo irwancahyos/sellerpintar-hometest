@@ -14,16 +14,15 @@ const InputTypeText = ({
   value,
   errorMessage,
   onChange,
-  inputStyle
+  inputStyle,
+  inputStyleFromComponent
 }: InputText) => {
 
   // State to handle when focus the border of input to be blue
   const [isFocus, setIsFocus] = useState(false);
   
   // Define the style for the inputText
-  const inputStyles = `flex items-center border-1 min-w-full p-[0.1rem] rounded-md focus:outline ${
-    isFocus ? 'border-blue-600' : 'border-[#E2E8F0]'
-  }`;
+  const inputStyles = `${isFocus ? 'border-blue-600' : 'border-[#E2E8F0]'}`;
 
   // Custom blur handler to manage both the focus state and form props
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -33,7 +32,7 @@ const InputTypeText = ({
 
   return (
     <>
-      <div className={inputStyles}>
+      <div className={`${inputStyleFromComponent}`}>
           {suffixIcon && (<span>{suffixIcon}</span>)}
         <input
           type={type}
@@ -53,3 +52,5 @@ const InputTypeText = ({
 
 // ******** Export Declaration ********
 export default InputTypeText;
+
+// flex items-center border-1 min-w-full p-[0.1rem] rounded-md focus:outline
