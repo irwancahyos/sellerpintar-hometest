@@ -33,7 +33,7 @@ export async function getAllArticles(title: string, page = 1, limit = 10, catego
  */
 export async function getUserProfile(): Promise<UserProfile> {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2E1NjE1YS0xZDUyLTRhYzEtYjJjYi04Y2MwNDhmOTViMTAiLCJpYXQiOjE3NDY1NTY4NTh9.YJ9Ov0C10Tg5oKysbDZBIbcZ8phXjhh0PdBUf4weVzg';
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
 
   try {
     const respon = await axios.get('https://test-fe.mysellerpintar.com/api/auth/profile', {
@@ -73,7 +73,7 @@ export async function  getAllCategory(page:number, limit:number, search?: string
  */
 export async function uploadImage(imageFile: File): Promise<string> {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2E1NjE1YS0xZDUyLTRhYzEtYjJjYi04Y2MwNDhmOTViMTAiLCJpYXQiOjE3NDY1NTY4NTh9.YJ9Ov0C10Tg5oKysbDZBIbcZ8phXjhh0PdBUf4weVzg';
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
 
   try {
 
@@ -98,7 +98,7 @@ export async function uploadImage(imageFile: File): Promise<string> {
  */
 export async function createCategory(name: string): Promise<Category> {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2E1NjE1YS0xZDUyLTRhYzEtYjJjYi04Y2MwNDhmOTViMTAiLCJpYXQiOjE3NDY1NTY4NTh9.YJ9Ov0C10Tg5oKysbDZBIbcZ8phXjhh0PdBUf4weVzg';
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
   
   try {
     const respon = await axios.post(
@@ -126,7 +126,7 @@ export async function createCategory(name: string): Promise<Category> {
  */
 export async function editCategory(id: string, name: string): Promise<Category> {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2E1NjE1YS0xZDUyLTRhYzEtYjJjYi04Y2MwNDhmOTViMTAiLCJpYXQiOjE3NDY1NTY4NTh9.YJ9Ov0C10Tg5oKysbDZBIbcZ8phXjhh0PdBUf4weVzg';
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
   
   try {
     const respon = await axios.put(
@@ -154,7 +154,8 @@ export async function editCategory(id: string, name: string): Promise<Category> 
  */
 export async function deleteCategory(id: string): Promise<Category> {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2E1NjE1YS0xZDUyLTRhYzEtYjJjYi04Y2MwNDhmOTViMTAiLCJpYXQiOjE3NDY1NTY4NTh9.YJ9Ov0C10Tg5oKysbDZBIbcZ8phXjhh0PdBUf4weVzg';
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  
   
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/categories/${id}`, {
