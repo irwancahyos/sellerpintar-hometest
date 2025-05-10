@@ -33,7 +33,8 @@ export async function getAllArticles(title: string, page = 1, limit = 10, catego
  */
 export async function getUserProfile(): Promise<UserProfile> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
 
   try {
     const respon = await axios.get('https://test-fe.mysellerpintar.com/api/auth/profile', {
@@ -73,10 +74,10 @@ export async function  getAllCategory(page:number, limit:number, search?: string
  */
 export async function uploadImage(imageFile: File): Promise<string> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
 
   try {
-
     const formData = new FormData();
     formData.append('image', imageFile);
 
@@ -98,7 +99,8 @@ export async function uploadImage(imageFile: File): Promise<string> {
  */
 export async function createCategory(name: string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.post(
@@ -126,7 +128,8 @@ export async function createCategory(name: string): Promise<Category> {
  */
 export async function editCategory(id: string, name: string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.put(
@@ -154,10 +157,12 @@ export async function editCategory(id: string, name: string): Promise<Category> 
  */
 export async function deleteCategory(id: string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/categories/${id}`, {
+      
       headers: {
         Authorization: `Bearer ${token}`,
       }
@@ -176,8 +181,8 @@ export async function deleteCategory(id: string): Promise<Category> {
  */
 export async function createArticle(title: string, content: string, categoryId: string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
-  
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.post(`https://test-fe.mysellerpintar.com/api/articles`, {
@@ -202,7 +207,8 @@ export async function createArticle(title: string, content: string, categoryId: 
  */
 export async function editArticle(title: string, content: string, categoryId: string, id:string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.put(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {
@@ -228,8 +234,8 @@ export async function editArticle(title: string, content: string, categoryId: st
  */
 export async function deleteArticle(id: string): Promise<Category> {
 
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
-  
+  // ******** Get token from local storage ********
+  const token = localStorage.getItem('tokenSellerPintar');
   
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {

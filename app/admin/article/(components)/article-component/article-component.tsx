@@ -171,8 +171,6 @@ function ArticleComponent() {
     if (responValue) {
       try {
         const res = await deleteArticle(swetAlert?.id);
-
-        
         fetchArticles();
       } catch (e) {
         throw new Error(`Error when try to delete article: ${e}`);

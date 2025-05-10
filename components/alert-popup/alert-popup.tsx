@@ -57,8 +57,8 @@ export function AlertDialogCategory({ open, onClose, onConfirm, title, descripti
           <AlertDialogCancel className="cursor-pointer hover:opacity-80" onClick={handleCancel}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction className="cursor-pointer hover:opacity-80 bg-[#DC2626]" onClick={handleConfirm}>
-            Delete
+          <AlertDialogAction className={`cursor-pointer hover:opacity-80 ${title === 'Logout' ? 'bg-[#2563EB]' : 'bg-[#DC2626]'}`} onClick={handleConfirm}>
+            {title === 'Logout' ? 'Logout' : 'Delete'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

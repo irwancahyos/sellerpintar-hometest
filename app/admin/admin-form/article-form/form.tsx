@@ -172,7 +172,7 @@
     sessionStorage.setItem('temporaryContentPreview', control?._formValues?.content ?? '');
 
     router.push(
-      `/preview?imageUrl=${imageUrl}&title=${control?._formValues?.title}&categoryName=${categoryName}&categoryId=${control?._formValues?.categoryId}&fromEdit=${true}`,
+      `/preview?imageUrl=${imageUrl}&title=${control?._formValues?.title}&categoryName=${categoryName}&categoryId=${control?._formValues?.categoryId}&fromEdit=${true}&articleId=${dataEdit?.articleId}`,
     );
   }
 

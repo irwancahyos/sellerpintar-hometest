@@ -64,6 +64,9 @@ function LoginComponent() {
 
         const { token, role } = res;
 
+        // set token to local storage
+        localStorage.setItem('tokenSellerPintar', token);
+
         // update role and toke to cookie in the application
         document.cookie = `token=${token}; path=/;`;
         document.cookie = `role=${role}; path=/;`;
@@ -72,9 +75,9 @@ function LoginComponent() {
 
         // redirect user base on role 
         if (role === 'Admin') {
-          window.location.href = '/admin/category';
+          window.location.href = '/admin/article';
         } else if (role === 'User') {
-          window.location.href = '/user/category';
+          window.location.href = '/user/article';
         }
       } catch(e) {
         toast.error("Failed Register");
