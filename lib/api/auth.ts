@@ -22,7 +22,7 @@ export async function registerUser({ username, password, role }: { username: str
     );
 
     return res.data;
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(`Error when register user from auth: ${err}`);
   }
 }
@@ -44,7 +44,7 @@ export async function loginUser({ username, password, role }: { username: string
       },
     );
     return res.data;
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(`Error when login user from auth: ${err}`);
   }
 }

@@ -14,7 +14,7 @@ import { AlertDialogCategory } from "../alert-popup/alert-popup";
 
 
 // ******** Component Declaration ********
-function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTextStyle, wrapperTitleStyle, profileText, profilePict, titleStyle, logoUrl, logoStyle, logoClickable, logoRedirectTo, dropdown}: Header) {
+function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTextStyle, wrapperTitleStyle, profileText, titleStyle, logoUrl, logoStyle, logoClickable, logoRedirectTo, dropdown}: Header) {
 
   // ******** Local component state declaration ********
   const [swetAlert, setSwetAlert] = useState({

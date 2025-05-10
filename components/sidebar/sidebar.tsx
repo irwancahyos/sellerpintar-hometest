@@ -9,7 +9,6 @@ import { AlertDialogCategory } from '../alert-popup/alert-popup';
 
 function SidebarComponent() {
 
-  const [activeSidebar, setActiveSidebar] = useState(0);
   const [swetAlert, setSwetAlert] = useState({
     open: false,
     title: '',
@@ -49,7 +48,6 @@ function SidebarComponent() {
 
   const handleSidebarClick = (routh:string, i:number) => {
     if(routh !== 'logout') {
-      setActiveSidebar(i);
       redirect(routh);
     } else {
       // delete cookie so it will make user logout
