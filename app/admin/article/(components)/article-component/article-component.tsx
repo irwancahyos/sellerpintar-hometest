@@ -15,7 +15,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { PlusIcon, SearchIcon } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { deleteArticle, getAllArticles, getAllCategory } from '@/service/admin-service/admin-service';
 import { Article, Articles, Category, Categorys } from '@/types/types-and-interface';
 import { useRouter } from 'next/navigation';
@@ -48,10 +48,6 @@ function ArticleComponent() {
   const router = useRouter();
 
   // ******** React hooks useEffect declaration ********
-  useEffect(() => {
-    fetchArticles();
-  }, [debouncedSearchQuery, categoryId, page]);
-
 
   /**
    * Fetch data all article with send payload and return 10 data
@@ -60,20 +56,22 @@ function ArticleComponent() {
    * @limit - number
    * @categoryId - string
    */
-  async function fetchArticles() {
+  const fetchArticles = useCallback(async () => {
     setIsLoading(true);
     try {
       const data: Articles = await getAllArticles(debouncedSearchQuery, page, limit, categoryId);
-
-      // re assign articles and data count
       setArticles(data);
       setDataCount(data?.data?.length ?? 0);
     } catch (e) {
-      throw new Error(`Error when get data article from component: ${e}`);
+      throw new Error(`Error when getting articles: ${e}`);
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [debouncedSearchQuery, categoryId, page]);
+
+  useEffect(() => {
+    fetchArticles();
+  }, [debouncedSearchQuery, categoryId, page, fetchArticles]);
 
   /**
    * Fetch data all category , use while to get all data because without send payload just get 10 data
