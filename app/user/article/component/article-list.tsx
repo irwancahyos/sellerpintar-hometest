@@ -1,6 +1,7 @@
 // ******** Imports ********
 import { Articles } from "@/types/types-and-interface";
 import { useRouter } from 'next/navigation';
+import imageTemporary from '../../../../assets/cyber security.jpg';
 
 // ******** Local Interace ********
 interface ArticleList {
@@ -73,7 +74,7 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
                 <img
                   onClick={() => handleOpenDetailArticle(el?.id ?? '')}
                   className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] rounded-[12px]"
-                  src={'https://www.linknet.id/files/photos/shares/article/cyber%20security.jpg'}
+                  src={`${imageTemporary?.src}`}
                   alt="image of article"
                 />
               </div>
