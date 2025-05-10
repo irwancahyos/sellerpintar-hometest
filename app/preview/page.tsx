@@ -1,14 +1,7 @@
 // ******** Imports ********
-import PreviewComponent from "./component/preview";
+import PreviewWrapper from "./component/PreviewWrapper";
 
 // ******** Function Declaration ********
-function Preview() {
-  return ( 
-    <>
-      <PreviewComponent />
-    </>
-   );
+export default function PreviewPage() {
+  return <PreviewWrapper />;
 }
-
-// ******** Export Declaration ********
-export default Preview;
