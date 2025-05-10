@@ -157,8 +157,8 @@ function ArticleComponent() {
    * Function to set when category selected by user and make the pagination back to 1
    */
   const handleCategorySelected = (id: string) => {
-    setPage(1);
-    id === 'All' ? setCategoryId('') : setCategoryId(id);
+    setPage(1)
+    id === 'All' ? setCategoryId('') : setCategoryId(id)
   };
 
   /**

@@ -215,7 +215,9 @@ function CategotryComponent() {
       try {
         const res = await deleteCategory(swetAlert?.id);
 
-        fetchAllCategory()
+        if(res) {
+          fetchAllCategory()
+        }
       } catch(e) {
         throw new Error(`Error when try to delete category: ${e}`)
       }
