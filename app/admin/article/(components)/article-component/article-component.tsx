@@ -156,7 +156,7 @@ function ArticleComponent() {
    */
   const handleCategorySelected = (id: string) => {
     setPage(1)
-    id === 'All' ? setCategoryId('') : setCategoryId(id)
+    setCategoryId(id === 'All' ? '' : id);
   };
 
   /**
