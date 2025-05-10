@@ -8,7 +8,7 @@ import logoImageUrl from "../../../assets/image.png";
 import logoImageUrlColor from "../../../assets/logo.png";
 import { useEffect, useState } from "react";
 import { getAllArticles, getAllCategory, getUserProfile } from "@/service/admin-service/admin-service";
-import { Articles, Categorys, UserProfile } from "@/types/types-and-interface";
+import { Articles, Category, Categorys, UserProfile } from "@/types/types-and-interface";
 import {
   Pagination,
   PaginationContent,
@@ -60,7 +60,7 @@ function UserArticle() {
    * Function to structure data dropdown of category
    * @return - return variable {id: id of category, name: name of category}
    */
-  const uniqCategory = (category: any[]): void => {
+  const uniqCategory = (category: Category[]): void => {
     const uniqCategory = [
       ...new Set(
         category
@@ -136,15 +136,13 @@ function UserArticle() {
       setIsLoading(true);
 
       try {
-        let allDataCategory: any[] = [];
+        let allDataCategory: Category[] = [];
         let page = 1;
-        let limit = 10;
-        let total = 0;
+        const limit = 10;
 
         while (true) {
           const res = await getAllCategory(page, limit);
           allDataCategory = [...allDataCategory, ...res.data];
-          total = res.total;
 
           // the looping will stop when get current page same with total page, mean the data is unavailable
           if (res?.currentPage === res?.totalPages) break;

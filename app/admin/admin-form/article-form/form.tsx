@@ -18,7 +18,7 @@
   function ArticleForm() {
     // ******** Local state variable declaration ********
     const [imageUrl, setImageUrl] = useState<string>('');
-    const [categorys, setCategorys] = useState<any[]>([]);
+    const [categorys, setCategorys] = useState<Category[]>([]);
     const [dataEdit, setDataEdit] = useState<EditData>({} as EditData);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -101,15 +101,13 @@
       async function fetchAllCategory() {
   
         try {
-          let allDataCategory: any[] = [];
+          let allDataCategory: Category[] = [];
           let page = 1;
-          let limit = 10;
-          let total = 0;
+          const limit = 10;
   
           while (true) {
             const res = await getAllCategory(page, limit);
-            allDataCategory = [...allDataCategory, ...res.data];
-            total = res.total;
+            allDataCategory = [...allDataCategory, ...res?.data];
   
             // the looping will stop when get current page same with total page, mean the data is unavailable
             if (res?.currentPage === res?.totalPages) break;
@@ -130,7 +128,7 @@
    * Function to structure data dropdown of category
    * @return - return variable {id: id of category, name: name of category}
    */
-  const uniqCategory = (category: any[]): void => {
+  const uniqCategory = (category: Category[]): void => {
     const uniqCategory = [
       ...new Set(
         category
@@ -300,7 +298,7 @@
               <Controller
                 name="categoryId"
                 control={control}
-                render={({ field: { onChange, value, onBlur } }) => (
+                render={({ field: { onChange, value } }) => (
                   <Select
                     value={value}
                     onValueChange={(selectedValue) => {

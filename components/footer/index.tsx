@@ -2,7 +2,7 @@
 import { Footer } from "@/types/types-and-interface";
 
 // ******** Component Declaration ********
-function FooterComponent({style, title, wraperProfileStyle, imgStyle, profileTextStyle, wrapperTitleStyle, profileText, profilePict, titleStyle, logoUrl, logoStyle}: Footer) {
+function FooterComponent({style, title, wraperProfileStyle, imgStyle, wrapperTitleStyle, profileText, titleStyle, logoUrl, logoStyle}: Footer) {
   return ( 
     <>
       <footer className={`${style}`}>

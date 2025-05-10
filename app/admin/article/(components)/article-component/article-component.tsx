@@ -17,7 +17,7 @@ import {
 import { PlusIcon, SearchIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { deleteArticle, getAllArticles, getAllCategory } from '@/service/admin-service/admin-service';
-import { Article, Articles, Category } from '@/types/types-and-interface';
+import { Article, Articles, Category, Categorys } from '@/types/types-and-interface';
 import { useRouter } from 'next/navigation';
 import { AlertDialogCategory } from '@/components/alert-popup/alert-popup';
 
@@ -26,7 +26,7 @@ import { AlertDialogCategory } from '@/components/alert-popup/alert-popup';
 function ArticleComponent() {
   // ******** Local component state declaration ********
   const [articles, setArticles] = useState<Articles>();
-  const [categorys, setCategorys] = useState<any[]>([]);
+  const [categorys, setCategorys] = useState<Categorys[]>([]);
   const [categoryId, setCategoryId] = useState<string>('');
   const [page, setPage] = useState(1);
   const [dataCount, setDataCount] = useState(0);
@@ -86,15 +86,13 @@ function ArticleComponent() {
       setIsLoading(true);
 
       try {
-        let allDataCategory: any[] = [];
+        let allDataCategory: Category[] = [];
         let page = 1;
-        let limit = 10;
-        let total = 0;
+        const limit = 10;
 
         while (true) {
           const res = await getAllCategory(page, limit);
           allDataCategory = [...allDataCategory, ...res.data];
-          total = res.total;
 
           // the looping will stop when get current page same with total page, mean the data is unavailable
           if (res?.currentPage === res?.totalPages) break;
@@ -138,7 +136,7 @@ function ArticleComponent() {
    * Function to structure data dropdown of category
    * @return - return variable {id: id of category, name: name of category}
    */
-  const uniqCategory = (category: any[]): void => {
+  const uniqCategory = (category: Category[]): void => {
     const uniqCategory = [
       ...new Set(
         category
@@ -171,7 +169,10 @@ function ArticleComponent() {
     if (responValue) {
       try {
         const res = await deleteArticle(swetAlert?.id);
-        fetchArticles();
+        
+        if(res) {
+          fetchArticles();
+        }
       } catch (e) {
         throw new Error(`Error when try to delete article: ${e}`);
       }

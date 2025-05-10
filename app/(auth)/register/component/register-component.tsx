@@ -67,12 +67,14 @@ function RegisterComponent() {
           role: formValue?.role
         })
 
-        // handle token atau redirect
-        toast.success("Register successfully");
-        // redirect to login page
-        window.location.href = '/login';
+        if (res) {
+          // handle token atau redirect
+          toast.success('Register successfully');
+          // redirect to login page
+          window.location.href = '/login';
+        }
       } catch(e) {
-        toast.error("Failed Register");
+        toast.error(`Failed Register ${e}`);
       }
     } else {
       // handle error

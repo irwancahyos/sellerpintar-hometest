@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,7 +51,7 @@ function DialogCategoryForm({onOpenChange, open, title, onDialogClose, dataEdit}
   useEffect(() => {
     if (dataEdit) {
       // patch the form with dataEdit.name
-      reset({ category: dataEdit?.name! }); 
+      reset({ category: dataEdit?.name }); 
     }
   }, [dataEdit, reset]);
 
@@ -77,7 +77,10 @@ function DialogCategoryForm({onOpenChange, open, title, onDialogClose, dataEdit}
     if(isValid) {
       try {
         const res = !dataEdit ? await createCategory(value) : await editCategory(idCategory, value);
-        onDialogClose?.('submit');
+
+        if (res) {
+          onDialogClose?.('submit');
+        }
       } catch(e) {
         throw new Error(`Error when send ${error} category form component: ${e}`)
       } finally {

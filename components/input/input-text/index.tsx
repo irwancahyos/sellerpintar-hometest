@@ -18,12 +18,8 @@ const InputTypeText = ({
   inputStyleFromComponent
 }: InputText) => {
 
-  // State to handle when focus the border of input to be blue
-  const [isFocus, setIsFocus] = useState(false);
-
   // Custom blur handler to manage both the focus state and form props
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocus(false); // Clear focus state
     onBlur?.(event); // Call form's onBlur if provided
   };
 
@@ -34,7 +30,6 @@ const InputTypeText = ({
         <input
           type={type}
           onBlur={handleBlur}
-          onFocus={() => setIsFocus(true)}
           onChange={onChange}
           className={inputStyle}
           placeholder={placeholder}

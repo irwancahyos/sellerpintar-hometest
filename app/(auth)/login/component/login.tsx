@@ -80,7 +80,7 @@ function LoginComponent() {
           window.location.href = '/user/article';
         }
       } catch(e) {
-        toast.error("Failed Register");
+        toast.error(`Failed Register : ${e}`);
       }
     } 
     // reset form
@@ -154,7 +154,7 @@ function LoginComponent() {
           {/* Redirect Login Section */}
           <div className="mt-7">
             <p className="text-center text-sm">
-              Don't have an account ?
+            {"Don't have an account?"}
               <span className="ml-1">
                 <GeneralButton patchName="/register" styles="underline text-blue-700" text="Register" />
               </span>

@@ -46,7 +46,7 @@ function SidebarComponent() {
     }
   ]
 
-  const handleSidebarClick = (routh:string, i:number) => {
+  const handleSidebarClick = (routh:string) => {
     if(routh !== 'logout') {
       redirect(routh);
     } else {
@@ -92,7 +92,7 @@ function SidebarComponent() {
         <img className="w-[8rem] max-[500px]:w-[8rem]" src={LogoImage?.src} alt="Image of header login" />
         <ul className="space-y-2 mt-5">
           {sidebarContent.map((el: { label: string; href: string; icon: React.ReactNode }, i) => (
-            <li key={el?.label} onClick={() => handleSidebarClick(el?.href, i)} className={`w-full h-full text-white cursor-pointer flex pl-3 p-2 gap-3 rounded-md items-center ${activeIndex === i ? 'bg-[#3B82F6]' : ''}`}>
+            <li key={el?.label} onClick={() => handleSidebarClick(el?.href)} className={`w-full h-full text-white cursor-pointer flex pl-3 p-2 gap-3 rounded-md items-center ${activeIndex === i ? 'bg-[#3B82F6]' : ''}`}>
               {el?.icon}
               {el?.label}
             </li>
