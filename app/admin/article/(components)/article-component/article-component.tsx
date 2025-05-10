@@ -16,8 +16,10 @@ import {
 } from '@/components/ui/pagination';
 import { PlusIcon, SearchIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { getAllArticles, getAllCategory } from '@/service/admin-service/admin-service';
+import { deleteArticle, getAllArticles, getAllCategory } from '@/service/admin-service/admin-service';
 import { Article, Articles } from '@/types/types-and-interface';
+import { useRouter } from 'next/navigation';
+import { AlertDialogCategory } from '@/components/alert-popup/alert-popup';
 
 
 // ******** Component Declaration ********
@@ -30,12 +32,26 @@ function ArticleComponent() {
   const [dataCount, setDataCount] = useState(0);
   const [searchArticle, setSearchArticle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [swetAlert, setSwetAlert] = useState({
+    open: false,
+    title: '',
+    description: '',
+    firstButtonText: '',
+    secondButtonText: '',
+    responValue: '',
+    id: '',
+  });
 
   // ******** Local ccomponent variable declaration ********
   const limit = 10;
   const debouncedSearchQuery: string = useDebounce(searchArticle, 300);
+  const router = useRouter();
 
   // ******** React hooks useEffect declaration ********
+  useEffect(() => {
+    fetchArticles();
+  }, [debouncedSearchQuery, categoryId, page]);
+
 
   /**
    * Fetch data all article with send payload and return 10 data
@@ -44,24 +60,20 @@ function ArticleComponent() {
    * @limit - number
    * @categoryId - string
    */
-  useEffect(() => {
-    async function fetchArticles() {
-      setIsLoading(true);
-      try {
-        const data: Articles = await getAllArticles(debouncedSearchQuery, page, limit, categoryId);
+  async function fetchArticles() {
+    setIsLoading(true);
+    try {
+      const data: Articles = await getAllArticles(debouncedSearchQuery, page, limit, categoryId);
 
-        // re assign articles and data count
-        setArticles(data);
-        setDataCount(data?.data?.length ?? 0);
-      } catch(e) {
-        throw new Error(`Error when get data article from component: ${e}`);
-      } finally {
-        setIsLoading(false);
-      }
+      // re assign articles and data count
+      setArticles(data);
+      setDataCount(data?.data?.length ?? 0);
+    } catch (e) {
+      throw new Error(`Error when get data article from component: ${e}`);
+    } finally {
+      setIsLoading(false);
     }
-
-    fetchArticles();
-  }, [debouncedSearchQuery, categoryId, page]);
+  }
 
   /**
    * Fetch data all category , use while to get all data because without send payload just get 10 data
@@ -144,11 +156,28 @@ function ArticleComponent() {
   };
 
   /**
-   * Function to set when category selected by user and make the pagination back to 1 
+   * Function to set when category selected by user and make the pagination back to 1
    */
   const handleCategorySelected = (id: string) => {
     setPage(1);
     id === 'All' ? setCategoryId('') : setCategoryId(id);
+  };
+
+  /**
+   * Function to handle when close alert category to know the respon value and when respon from confirmation is true then delete data category
+   */
+  const onDialogCloseRespon = async (responValue?: true | false) => {
+    setSwetAlert((prev) => ({ ...prev, open: false }));
+    if (responValue) {
+      try {
+        const res = await deleteArticle(swetAlert?.id);
+
+        
+        fetchArticles();
+      } catch (e) {
+        throw new Error(`Error when try to delete article: ${e}`);
+      }
+    }
   };
 
   /**
@@ -159,7 +188,7 @@ function ArticleComponent() {
   };
 
   /**
-   * Function to formated date ,the date just change in the display 
+   * Function to formated date ,the date just change in the display
    * @example - "2025-05-06T15:40:45.399Z" to "May 02, 2025 18:52:28"
    */
   function formatDate(dateString: string): string {
@@ -198,6 +227,38 @@ function ArticleComponent() {
   }
 
   /**
+   * Function to create new article
+   */
+  const handleAddArticle = () => {
+    window.location.href = 'article/form';
+  };
+
+  /**
+   * Function to edit article
+   */
+  const handleClick = (article: Article) => {
+    sessionStorage.setItem('temporaryContentPreview', article?.content ?? '');
+    router.push(
+      `article/form?articleId=${article?.id}&imageUrl=${article?.imageUrl}&title=${article?.title}&categoryName=${article?.category?.name}&categoryId=${article?.categoryId}`
+    );
+  };
+
+
+  /**
+   * Function to delete article
+   */
+  const handleDeleteArticle = async (articleId: string) => {
+    setSwetAlert(prev => ({...prev, open: true, title: "Delete Articles", id: articleId, description: `Deleting this article is permanent and cannot be undone. All related content will be removed.`}));
+  };
+
+  /**
+   * Handle when swal is closed
+   */
+  const handleCloseAlert = () => {
+    setSwetAlert(prev => ({...prev, open: false}));
+  }
+
+  /**
    * Handle next page in paginatir
    */
   const handleNext = () => {
@@ -210,6 +271,47 @@ function ArticleComponent() {
   const handlePrev = () => {
     if (page > 1) setPage((prev) => prev - 1);
   };
+
+
+  /**
+   * Function to open preview article
+   */
+  const openPreview = (article: Article) => {
+    sessionStorage.setItem('temporaryContentPreview', article?.content ?? '');
+    router.push(
+      `/preview?articleId=${article?.id}&imageUrl=${article?.imageUrl}&title=${article?.title}&categoryName=${article?.category?.name}&categoryId=${article?.categoryId}&createAd=${article?.createdAt}`,
+    );
+  }
+
+  /**
+   * Function handle pagination to make the pagination is dinamicly
+   */
+  function getPageList(currentPage: number, totalPages: number) {
+    const delta = 1; // how many pages to show on each side of current
+    const range: number[] = [];
+    const rangeWithDots: (number | '...')[] = [];
+
+    // build full range [1,2,3…totalPages]
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+        range.push(i);
+      }
+    }
+
+    // now inject '...' where gaps exist
+    let prev: number | null = null;
+    for (const page of range) {
+      if (prev !== null) {
+        if (page - prev! > 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(page);
+      prev = page;
+    }
+
+    return rangeWithDots;
+  }
 
   return (
     <div className="w-full">
@@ -277,6 +379,7 @@ function ArticleComponent() {
           {/* Button create article */}
           <div>
             <GeneralButton
+              onClick={handleAddArticle}
               styles="bg-[#2563EB] cursor-pointer rounded-sm w-full text-white text-sm px-2 py-[0.45rem] flex items-center gap-1"
               text="Add Articles"
               img={<PlusIcon size={16} />}
@@ -309,9 +412,13 @@ function ArticleComponent() {
                       <TableCell className="text-center text-[#475569]">{formatDate(el?.createdAt ?? '')}</TableCell>
                       <TableCell className="text-[#475569] underline">
                         <div className="w-full h-full flex justify-center gap-1.5">
-                          <p className="text-[#2563EB] cursor-pointer">Preview</p>
-                          <p className="text-[#2563EB] cursor-pointer">Edit</p>
-                          <p className="text-[#EF4444] cursor-pointer">Delete</p>
+                          <p onClick={() => openPreview(el)} className="text-[#2563EB] cursor-pointer">Preview</p>
+                          <p onClick={() => handleClick(el)} className="text-[#2563EB] cursor-pointer">
+                            Edit
+                          </p>
+                          <p onClick={() => handleDeleteArticle(el?.id ?? '')} className="text-[#EF4444] cursor-pointer">
+                            Delete
+                          </p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -322,7 +429,7 @@ function ArticleComponent() {
 
             {/* pagination */}
             <div className="rounded-b-[12px] border-[#E2E8F0] border p-[24px] bg-[#F9FAFB]">
-              <Pagination className={dataCount === 0 ? 'hidden' : dataCount < 9 ? 'invisible' : 'visible'}>
+              <Pagination className={dataCount === 0 ? 'invisible' : 'visible'}>
                 <PaginationContent>
                   <PaginationItem
                     className={`${
@@ -335,21 +442,31 @@ function ArticleComponent() {
                       <PaginationPrevious />
                     </button>
                   </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink className="cursor-pointer" isActive={page === 1} onClick={() => setPage(1)}>
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink className="cursor-pointer" isActive={page === 2} onClick={() => setPage(2)}>
-                      2
-                    </PaginationLink>
-                  </PaginationItem>
-                  {(articles?.limit ?? 0) * (articles?.page ?? 0) < (articles?.total ?? 0) && (
-                    <PaginationItem className="relative mr-8">
-                      <PaginationEllipsis className="absolute -top-[1rem]" />
-                    </PaginationItem>
-                  )}
+
+                  {/* Dynamic pages + ellipsis */}
+                  {getPageList(articles?.page ?? 0, Math.ceil((articles?.total ?? 0) / (articles?.limit ?? 0)) ?? 0).map((item, idx) => {
+                    if (item === '...') {
+                      return (
+                        <PaginationItem key={`dot-${idx}`} className="relative mx-2">
+                          <PaginationEllipsis className="absolute -top-3 -left-4" />
+                        </PaginationItem>
+                      );
+                    } else {
+                      return (
+                        <PaginationItem key={item}>
+                          <PaginationLink
+                            href="#"
+                            isActive={item === articles?.page}
+                            onClick={() => setPage(item)}
+                            className="cursor-pointer"
+                          >
+                            {item}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    }
+                  })}
+
                   <PaginationItem
                     className={`relative ml-1.5 mr-8 ${
                       (articles?.limit ?? 0) * (articles?.page ?? 0) >= (articles?.total ?? 0)
@@ -390,6 +507,15 @@ function ArticleComponent() {
           </div>
         )}
       </div>
+
+      {/* Alertt calling */}
+      <AlertDialogCategory
+        open={swetAlert?.open}
+        description={swetAlert?.description}
+        title={swetAlert?.title}
+        onDialogClose={onDialogCloseRespon}
+        onClose={handleCloseAlert}
+      />
     </div>
   );
 }

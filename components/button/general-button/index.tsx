@@ -5,11 +5,11 @@ import { ButtonProps } from "@/types/types-and-interface";
 import Link from "next/link";
 
 // ******** Component Declaration ********
-const GeneralButton = ({styles, text, img, onClick, disabled = false, patchName}: ButtonProps) => {
+const GeneralButton = ({styles, text, img, onClick, disabled = false, patchName, type}: ButtonProps) => {
   return (
     <>
       {!patchName && (
-        <button disabled={disabled} onClick={onClick} className={styles}>
+        <button type={type} disabled={disabled} onClick={onClick} className={styles}>
           {img && img}
           {text}
         </button>

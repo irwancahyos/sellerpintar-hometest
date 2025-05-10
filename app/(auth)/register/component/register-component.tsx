@@ -68,12 +68,10 @@ function RegisterComponent() {
         })
 
         // handle token atau redirect
-        console.log(res);
         toast.success("Register successfully");
         // redirect to login page
         window.location.href = '/login';
       } catch(e) {
-        console.error(e);
         toast.success("Failed Register");
       }
     } else {

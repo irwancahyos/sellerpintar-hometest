@@ -21,11 +21,9 @@ export async function registerUser({ username, password, role }: { username: str
       },
     );
 
-    console.log('Register success:', res.data);
     return res.data;
   } catch (err: any) {
-    console.error('Register error:', err.response?.data || err.message);
-    throw err;
+    throw new Error(`Error when register user from auth: ${err}`);
   }
 }
 
@@ -47,7 +45,6 @@ export async function loginUser({ username, password, role }: { username: string
     );
     return res.data;
   } catch (err: any) {
-    console.error('Register error:', err.response?.data || err.message);
-    throw err;
+    throw new Error(`Error when login user from auth: ${err}`);
   }
 }

@@ -57,6 +57,7 @@ export interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean; 
   patchName?: string;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 
@@ -106,4 +107,49 @@ export interface Categorys {
   totalData?: number;
   totalPages?: number;
   currentPage?: number;
+}
+
+
+// ******** Misc Interface ********
+export interface EditData {
+  articleId: string;
+  articleContent: string;
+  articleTitle: string;
+  imageUrl: string;
+  categoryId: string;
+  categoryName: string;
+}
+
+export interface Footer {
+  title?: string;
+  profileText?: string;
+  style?: string;
+  wraperProfileStyle?: string;
+  imgStyle?: string;
+  profileTextStyle?: string; 
+  wrapperTitleStyle?: string;
+  titleStyle?: string;
+  profilePict?: string;
+  logoUrl?: string; 
+  logoStyle?: string; 
+}
+
+export interface Header {
+  title?: string;
+  profileText?: string;
+  style?: string;
+  wraperProfileStyle?: string;
+  imgStyle?: string;
+  profileTextStyle?: string; 
+  wrapperTitleStyle?: string;
+  titleStyle?: string;
+  profilePict?: string;
+  logoUrl?: string; 
+  logoStyle?: string; 
+}
+
+export interface QuillEditorComponentProps {
+  value: string;
+  onChange: (value: string) => void;
+  onBlur: () => void;
 }

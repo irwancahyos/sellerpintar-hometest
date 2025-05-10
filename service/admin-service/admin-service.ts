@@ -156,9 +156,83 @@ export async function deleteCategory(id: string): Promise<Category> {
 
   const token = process.env.NEXT_PUBLIC_API_TOKEN;
   
-  
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    return respon?.data;
+  } catch (e) {
+    throw new Error(`Error when upload image: ${e}`);
+  }
+}
+
+// ******** API Articles ********
+
+/**
+ * Api to create Article with send title , content, id user and id of category
+ */
+export async function createArticle(title: string, content: string, categoryId: string): Promise<Category> {
+
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  
+  
+  try {
+    const respon = await axios.post(`https://test-fe.mysellerpintar.com/api/articles`, {
+      title,
+      categoryId,
+      content
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    return respon?.data;
+  } catch (e) {
+    throw new Error(`Error from server when create article: ${e}`);
+  }
+}
+
+/**
+ * Api to edit Article with send title , content, id user and id of category
+ */
+export async function editArticle(title: string, content: string, categoryId: string, id:string): Promise<Category> {
+
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  
+  try {
+    const respon = await axios.put(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {
+      title,
+      categoryId,
+      content
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+
+      }
+    });
+
+    return respon?.data;
+  } catch (e) {
+    throw new Error(`Error from server when create article: ${e}`);
+  }
+}
+
+/**
+ * Api to create category with send name and get respon with new category data
+ */
+export async function deleteArticle(id: string): Promise<Category> {
+
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  
+  
+  try {
+    const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
