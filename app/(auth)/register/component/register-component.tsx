@@ -72,7 +72,7 @@ function RegisterComponent() {
         // redirect to login page
         window.location.href = '/login';
       } catch(e) {
-        toast.success("Failed Register");
+        toast.error("Failed Register");
       }
     } else {
       // handle error

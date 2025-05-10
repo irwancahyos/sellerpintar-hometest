@@ -1,4 +1,5 @@
 // ******** Imports ********
+import { UniqCategory } from "@/app/user/article/page";
 import { ReactNode } from "react";
 
 // This interface use in the input tag in component input-text
@@ -107,6 +108,8 @@ export interface Categorys {
   totalData?: number;
   totalPages?: number;
   currentPage?: number;
+  name?: string;
+  id?: string;
 }
 
 
@@ -146,6 +149,10 @@ export interface Header {
   profilePict?: string;
   logoUrl?: string; 
   logoStyle?: string; 
+  category?: Categorys;
+  logoClickable?: boolean;
+  logoRedirectTo?: string;
+  dropdown?: string;
 }
 
 export interface QuillEditorComponentProps {

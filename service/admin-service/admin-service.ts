@@ -122,7 +122,6 @@ export async function createCategory(name: string): Promise<Category> {
   }
 }
 
-
 /**
  * Api to create category with send name and get respon with new category data
  */
@@ -247,5 +246,20 @@ export async function deleteArticle(id: string): Promise<Category> {
     return respon?.data;
   } catch (e) {
     throw new Error(`Error when upload image: ${e}`);
+  }
+}
+
+// ******** API User ********
+
+/**
+ * Api to get one article
+ */
+export async function getArticleById(id: string) {
+  try {
+    const respon = await axios.get(`https://test-fe.mysellerpintar.com/api/articles/?articleId=${id}`);
+
+    return respon.data;
+  } catch(err) {
+    throw new Error("Failed when try to getAllArticles");
   }
 }
