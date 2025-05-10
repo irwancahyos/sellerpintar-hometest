@@ -25,7 +25,7 @@ function UserHeader({categorys, onCategorySelected, onSearchChange}: UserHeader)
    */
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchArticle(e.target.value);
-    onSearchChange(e.target.value);
+    onSearchChange(e?.target?.value);
   };
 
   return (
@@ -48,7 +48,7 @@ function UserHeader({categorys, onCategorySelected, onSearchChange}: UserHeader)
 
           {/* Filter section */}
           <div className="input-filter w-full flex justify-center mt-8">
-            <div className='p-2 bg-[#3B82F6] max-[640px]:flex-col rounded-[12px] w-[80%] max-w-[608px] flex gap-2'>
+            <div className="p-2 bg-[#3B82F6] max-[640px]:flex-col rounded-[12px] w-[80%] max-w-[608px] flex gap-2">
               {/* Dropdown category */}
               <Select onValueChange={onCategorySelected}>
                 <SelectTrigger className="min-w-[180px] max-[640px]:w-full cursor-pointer bg-white">
@@ -58,11 +58,13 @@ function UserHeader({categorys, onCategorySelected, onSearchChange}: UserHeader)
                   <SelectItem className="cursor-pointer" value="All">
                     All
                   </SelectItem>
-                  {categorys?.map((category: Category) => (
-                    <SelectItem key={category?.id} className="cursor-pointer" value={category?.id ?? ''}>
-                      {category?.name}
-                    </SelectItem>
-                  ))}
+                  {categorys
+                    ?.filter((category): category is Category => !!category?.id)
+                    .map((category) => (
+                      <SelectItem key={category.id} className="cursor-pointer" value={category?.id ?? ''}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
 

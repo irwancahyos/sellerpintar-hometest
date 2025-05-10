@@ -12,7 +12,7 @@
   import {z} from 'zod';
   import { zodResolver } from '@hookform/resolvers/zod';
   import { useRouter, useSearchParams } from 'next/navigation';
-  import { EditData } from '@/types/types-and-interface';
+  import { Category, EditData } from '@/types/types-and-interface';
 
   // ******** Component Declaration ********
   function ArticleForm() {
@@ -241,11 +241,15 @@
                 <div className="rounded-[12px] min-w-full min-h-full bg-[#FFFFFF] flex flex-col items-center border border-[#CBD5E1]">
                   <img src={imageUrl} alt="Uploaded Image" className="w-[199px] mt-2.5 rounded-[6px] h-[115px] object-cover" />
                   <div className="w-full justify-center h-[16px] mt-1.5 flex gap-2">
-                    <button type='button' onClick={handleClick} className="text-[#2563EB] cursor-pointer border-b border-b-[#2563EB] pb-4 text-sm">
+                    <button
+                      type="button"
+                      onClick={handleClick}
+                      className="text-[#2563EB] cursor-pointer border-b border-b-[#2563EB] pb-4 text-sm"
+                    >
                       Changes
                     </button>
                     <button
-                      type='button'
+                      type="button"
                       onClick={() => setImageUrl('')}
                       className="text-[#EF4444] cursor-pointer border-b border-b-[#EF4444] pb-4 text-sm"
                     >
@@ -307,11 +311,13 @@
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent onCloseAutoFocus={() => trigger('categoryId')} className="!max-h-[20rem]">
-                      {categorys?.map((category) => (
-                        <SelectItem key={category?.id} className="cursor-pointer" value={category?.id}>
-                          {category?.name}
-                        </SelectItem>
-                      ))}
+                      {categorys
+                        ?.filter((category): category is Category => !!category?.id)
+                        .map((category) => (
+                          <SelectItem key={category.id} className="cursor-pointer" value={category?.id ?? ''}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                 )}
@@ -331,9 +337,9 @@
               <Controller
                 name="content"
                 control={control}
-                render={({ field: {onBlur, onChange, value} }) => (
+                render={({ field: { onBlur, onChange, value } }) => (
                   <>
-                    <QuillEditorComponent ref={editorRef} value={value} onChange={onChange} onBlur={onBlur}  />
+                    <QuillEditorComponent ref={editorRef} value={value} onChange={onChange} onBlur={onBlur} />
                   </>
                 )}
               />

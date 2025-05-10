@@ -17,7 +17,7 @@ import {
 import { PlusIcon, SearchIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { deleteArticle, getAllArticles, getAllCategory } from '@/service/admin-service/admin-service';
-import { Article, Articles } from '@/types/types-and-interface';
+import { Article, Articles, Category } from '@/types/types-and-interface';
 import { useRouter } from 'next/navigation';
 import { AlertDialogCategory } from '@/components/alert-popup/alert-popup';
 
@@ -354,11 +354,13 @@ function ArticleComponent() {
                 <SelectItem className="cursor-pointer" value="All">
                   All
                 </SelectItem>
-                {categorys?.map((category) => (
-                  <SelectItem key={category?.id} className="cursor-pointer" value={category?.id}>
-                    {category?.name}
-                  </SelectItem>
-                ))}
+                {categorys
+                  ?.filter((category): category is Category => !!category?.id)
+                  .map((category) => (
+                    <SelectItem key={category.id} className="cursor-pointer" value={category?.id ?? ''}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
 
@@ -410,7 +412,9 @@ function ArticleComponent() {
                       <TableCell className="text-center text-[#475569]">{formatDate(el?.createdAt ?? '')}</TableCell>
                       <TableCell className="text-[#475569] underline">
                         <div className="w-full h-full flex justify-center gap-1.5">
-                          <p onClick={() => openPreview(el)} className="text-[#2563EB] cursor-pointer">Preview</p>
+                          <p onClick={() => openPreview(el)} className="text-[#2563EB] cursor-pointer">
+                            Preview
+                          </p>
                           <p onClick={() => handleClick(el)} className="text-[#2563EB] cursor-pointer">
                             Edit
                           </p>
