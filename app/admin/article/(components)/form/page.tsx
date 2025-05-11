@@ -1,15 +1,11 @@
 // ******** Imports ********
+import { Suspense } from 'react';
+import ArticleFormClient from '../../../admin-form/article-form/form';
 
-import ArticleForm from "@/app/admin/admin-form/article-form/form";
-
-// ******** Component declaration ********
-function FormArticle() {
+export default function Page() {
   return (
-    <div>
-      <ArticleForm />
-    </div>
+    <Suspense fallback={<div>Loading form...</div>}>
+      <ArticleFormClient />
+    </Suspense>
   );
 }
-
-// ******** Export declaration ********
-export default FormArticle;
