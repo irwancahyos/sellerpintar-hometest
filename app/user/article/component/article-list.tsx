@@ -1,7 +1,6 @@
 // ******** Imports ********
 import { Articles } from "@/types/types-and-interface";
 import { useRouter } from 'next/navigation';
-import imageTemporary from '../../../../assets/cyber security.jpg';
 
 // ******** Local Interace ********
 interface ArticleList {
