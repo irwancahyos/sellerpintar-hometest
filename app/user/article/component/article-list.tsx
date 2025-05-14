@@ -74,7 +74,7 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
                 <img
                   onClick={() => handleOpenDetailArticle(el?.id ?? '')}
                   className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] rounded-[12px]"
-                  src={`${imageTemporary?.src}`}
+                  src={`${el?.imageUrl}`}
                   alt="image of article"
                 />
               </div>
