@@ -167,7 +167,7 @@ function AticleDetailComponent() {
 
           {/* image section */}
           <div className="image w-full h-[480px] max-[500px]:h-[200px] my-4">
-            <img className="w-full h-full rounded-[12px]" src={'https://www.linknet.id/files/photos/shares/article/cyber%20security.jpg'} />
+            <img className="w-full h-full rounded-[12px]" src={dataArticle?.imageUrl} />
           </div>
 
           {/*  content section */}
