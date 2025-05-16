@@ -80,7 +80,7 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
               </div>
               <div className="text-[#475569] my-2 text-sm">{formatDate(el?.createdAt ?? '')}</div>
               <div>
-                <h3 className="text-lg font-semibold text-[#0F172A]">{el?.title}</h3>
+                <h3 className="text-lg font-semibold break-words text-[#0F172A]">{el?.title}</h3>
                 <p className="text-[#475569] my-2 text-ellipsis line-clamp-2" dangerouslySetInnerHTML={{ __html: el?.content || '' }}></p>
               </div>
               <div className="flex gap-2 mt-2">

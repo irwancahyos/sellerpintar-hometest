@@ -32,13 +32,13 @@ function UserHeader({categorys, onCategorySelected, onSearchChange}: UserHeader)
     <>
       <div
         style={{ backgroundImage: `url(${headerBgImage?.src})` }}
-        className={`w-full max-[500px]:min-h-[650px] min-h-[450px] max-[640px]:min-h-[600px] bg-cover bg-no-repeat bg-center relative z-10 flex justify-center max-[350px]:items-start items-center`}
+        className={`w-full max-[500px]:min-h-[650px] min-h-[450px] max-[640px]:min-h-[600px] bg-cover bg-no-repeat bg-center relative z-10 flex justify-center max-[400px]:items-start items-center`}
       >
         {/* Overlay Blue */}
         <div className="bg-[#2563EBDB] max-[500px]:min-h-[650px] max-[640px]:min-h-[600px] inset-0 absolute opacity-[96%] min-h-[450px]"></div>
 
         {/* Main Content */}
-        <div className="w-[730px] h-[276px] inset-0 relative z-20 max-[378px]:mt-3 max-[350px]:mt-28 mt-12">
+        <div className="w-[730px] h-[276px] inset-0 relative z-20 max-[378px]:mt-3 max-[400px]:mt-32 mt-12">
           {/* Text Section */}
           <div className="text text-[#FFFFFF] w-full flex flex-col items-center gap-2">
             <h1 className="font-bold">Blog genzet</h1>
