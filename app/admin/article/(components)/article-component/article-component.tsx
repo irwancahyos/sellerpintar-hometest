@@ -343,7 +343,7 @@ function ArticleComponent() {
         </div>
 
         {/* Search, filter and button add article */}
-        <div className="search p-[24px] bg-[#F9FAFB] border border-[#E2E8F0] flex justify-between">
+        <div className="search p-[24px] bg-[#F9FAFB] border border-[#E2E8F0] flex justify-between max-[650px]:flex-wrap max-[650px]:gap-y-3">
           <div className="flex gap-2">
             {/* Dropdown category */}
             <Select onValueChange={(value) => handleCategorySelected(value)}>
@@ -368,7 +368,7 @@ function ArticleComponent() {
             <InputTypeText
               placeholder="Search by title"
               inputStyle="focus:outline-none w-full h-[2rem] text-sm p-[0.4rem]"
-              inputStyleFromComponent="flex items-center border-1 min-w-[240px] p-[0.1rem] rounded-md focus:outline"
+              inputStyleFromComponent="flex items-center border-1 min-w-[240px] max-[500px]:min-w-[109px] p-[0.1rem] rounded-md focus:outline"
               type="text"
               value={searchArticle}
               onChange={handleSearchChange}
@@ -430,9 +430,9 @@ function ArticleComponent() {
             </div>
 
             {/* pagination */}
-            <div className="rounded-b-[12px] border-[#E2E8F0] border p-[24px] bg-[#F9FAFB]">
+            <div className="paginator-start rounded-b-[12px] border-[#E2E8F0] border p-[24px] bg-[#F9FAFB]">
               <Pagination className={dataCount === 0 ? 'invisible' : 'visible'}>
-                <PaginationContent>
+                <PaginationContent className="max-[500px]:pl-[38px]">
                   <PaginationItem
                     className={`${
                       (articles?.limit ?? 0) * (articles?.page ?? 0) < (articles?.total ?? 0)

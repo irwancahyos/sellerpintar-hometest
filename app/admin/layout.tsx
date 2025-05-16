@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   // ******** Local component state declaration ********
   const [userProfile, setUserProfile] = useState<UserProfile>();
+  const [openNavbar, setOpenNavbar] = useState(false);
 
   // ******** Local component variable declaration ********
   const currentRoute = usePathname();
@@ -38,10 +39,18 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
     fetchUserProfile();
   }, [])
 
+  /**
+   * Set navbar open or hide
+   */
+  const handleNavbarIconClicked = () => {
+    setOpenNavbar(!openNavbar);
+  }
+
+
   return (
-    <div className="flex min-h-screen">
+    <div className="min-[1070px]:flex min-h-screen">
       {/* Sidebar khusus user */}
-      <SidebarComponent />
+      <SidebarComponent handleNavbarClicked={handleNavbarIconClicked} isOpenNav={openNavbar} />
 
       {/* Main content */}
       <main className="flex-1 bg-[#F3F4F6]">
@@ -53,9 +62,11 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
           profileTextStyle="underline font-semibold text-sm cursor-pointer"
           title={patchName}
           profileText={userProfile?.username}
+          hamburgerMenu={true}
+          handleNavbarClicked={handleNavbarIconClicked}
         />
 
-        <div className='w-full h-[calc(100vh-68px)] bg-[#F3F4F6] p-[24px] overflow-y-auto'>
+        <div className='w-full h-[calc(100vh-68px)] bg-[#F3F4F6] max-[750px]:min-h-screen p-[24px] max-[750px]:overflow-x-auto overflow-y-auto'>
           {children}
         </div>
       </main>

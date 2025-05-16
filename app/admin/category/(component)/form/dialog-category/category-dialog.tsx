@@ -129,12 +129,12 @@ function DialogCategoryForm({onOpenChange, open, title, onDialogClose, dataEdit}
           <DialogFooter>
             <GeneralButton
               onClick={handleCloseButton}
-              styles="w-[74px] hover:opacity-80 cursor-pointer h-[40px] border-[#E2E8F0] border rounded-md"
+              styles="min-w-[74px] max-[500px]:w-full hover:opacity-80 cursor-pointer h-[40px] border-[#E2E8F0] border rounded-md"
               text="Cancel"
             />
             <GeneralButton
               onClick={handleSubmit(handleSubmitButtonDialog)}
-              styles="min-w-[54px] hover:opacity-80 px-3 cursor-pointer h-[40px] bg-[#2563EB] text-white border-[#E2E8F0] border rounded-md"
+              styles="min-w-[54px] max-[500px]:w-full hover:opacity-80 px-3 cursor-pointer h-[40px] bg-[#2563EB] text-white border-[#E2E8F0] border rounded-md"
               text={dataEdit ? 'Save change' : 'Add'}
             />
           </DialogFooter>

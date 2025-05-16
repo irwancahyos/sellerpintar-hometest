@@ -8,13 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { LogOut } from "lucide-react";
+import { Hamburger, LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 import { AlertDialogCategory } from "../alert-popup/alert-popup";
 
 
 // ******** Component Declaration ********
-function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTextStyle, wrapperTitleStyle, profileText, titleStyle, logoUrl, logoStyle, logoClickable, logoRedirectTo, dropdown}: Header) {
+function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTextStyle, wrapperTitleStyle, profileText, titleStyle, logoUrl, logoStyle, logoClickable, logoRedirectTo, dropdown, hamburgerMenu, handleNavbarClicked}: Header) {
 
   // ******** Local component state declaration ********
   const [swetAlert, setSwetAlert] = useState({
@@ -93,8 +93,9 @@ function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTex
 
   return (
     <>
-      <header className={`${style} overflow-x-hidden`}>
-        <div className={`title ${wrapperTitleStyle}`}>
+      <header className={`${style}`}>
+        <div className={`title ${wrapperTitleStyle} ${hamburgerMenu && 'flex items-center gap-2'}`}>
+          {hamburgerMenu && <Menu onClick={handleNavbarClicked} className="min-[1070px]:hidden cursor-pointer hover:opacity-70" size={27} />}
           {title && <h2 className={`title ${titleStyle}`}>{title}</h2>}
           {logoUrl && (
             <img
@@ -134,7 +135,7 @@ function HeaderComponent({style, title, wraperProfileStyle, imgStyle, profileTex
             <div className={`${imgStyle}`}>
               <p>{profileText?.substring(0, 1).toUpperCase()}</p>
             </div>
-            <p className={`${profileTextStyle}`}>{profileText}</p>
+            <p className={`${profileTextStyle} max-[500px]:hidden`}>{profileText}</p>
           </div>
         )}
       </header>

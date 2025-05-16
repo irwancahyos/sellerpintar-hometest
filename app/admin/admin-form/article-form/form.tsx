@@ -344,24 +344,24 @@
               {errors?.content?.message && <p className="text-sm ml-1 text-red-500">{errors?.content?.message}</p>}
             </div>
 
-            <div className="w-full mt-4 flex justify-end items-center gap-1">
+            <div className="w-full mt-4 flex justify-end items-center gap-1 max-[500px]:gap-1">
               <GeneralButton
                 type="button"
                 onClick={handleClickButtonBack}
                 text="Cancel"
-                styles="bg-[#FFFFFF] border border-[#E2E8F0] rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60"
+                styles="bg-[#FFFFFF] border border-[#E2E8F0] rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60 max-[500px]:px-2 py-0.5"
               />
               <GeneralButton
                 type="button"
                 onClick={handlePreviewButtonClicked}
                 text="Preview"
-                styles="bg-[#E2E8F0] rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60"
+                styles="bg-[#E2E8F0] rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60 max-[500px]:px-2 py-0.5"
               />
               <GeneralButton
                 type="button"
                 onClick={handleSubmit(handleSubmitFormButton)}
                 text="Upload"
-                styles="bg-[#2563EB] text-white rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60"
+                styles="bg-[#2563EB] text-white rounded-md px-3.5 py-1.5 font-semibold cursor-pointer hover:opacity-60 max-[500px]:px-2 py-0.5"
               />
             </div>
           </div>

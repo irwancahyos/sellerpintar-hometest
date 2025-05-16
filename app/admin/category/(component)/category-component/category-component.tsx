@@ -258,7 +258,7 @@ function CategotryComponent() {
       </div>
 
       {/* Search, filter and button add article */}
-      <div className="search p-[24px] bg-[#F9FAFB] border border-[#E2E8F0] flex justify-between">
+      <div className="search p-[24px] bg-[#F9FAFB] border border-[#E2E8F0] flex justify-between max-[500px]:flex-wrap max-[500px]:gap-y-3">
         <div className="flex gap-2">
           {/* Search by title */}
           <InputTypeText
@@ -276,7 +276,7 @@ function CategotryComponent() {
         <div>
           <GeneralButton
             styles="bg-[#2563EB] hover:opacity-80 cursor-pointer rounded-sm w-full text-white text-sm px-2 py-[0.45rem] flex items-center gap-1"
-            text="Add Articles"
+            text="Add Category"
             onClick={() => handleCallingDialog()}
             img={<PlusIcon size={16} />}
           />
@@ -315,7 +315,7 @@ function CategotryComponent() {
           {/* pagination */}
           <div className="rounded-b-[12px] border-[#E2E8F0] border p-[24px] bg-[#F9FAFB]">
             <Pagination className={dataCount === 0 ? 'hidden' : ''}>
-              <PaginationContent>
+              <PaginationContent className="max-[500px]:pl-[38px]">
                 <PaginationItem
                   className={`${
                     categorys?.currentPage === 1 ? 'opacity-40 pointer-events-none' : 'opacity-100 cursor-pointer pointer-events-auto'

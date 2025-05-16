@@ -153,6 +153,8 @@ export interface Header {
   logoClickable?: boolean;
   logoRedirectTo?: string;
   dropdown?: string;
+  hamburgerMenu?: boolean;
+  handleNavbarClicked?: () => void;
 }
 
 export interface QuillEditorComponentProps {

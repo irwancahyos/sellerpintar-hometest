@@ -10,6 +10,7 @@ import { getUserProfile } from "@/service/admin-service/admin-service";
 import FooterComponent from "@/components/footer";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CircleX } from "lucide-react";
+import imageNotAvailable from '../../../assets/image not availabe.jpg';
 
 interface EditData {
   articleId: string;
@@ -147,8 +148,8 @@ function PreviewComponent() {
           {/* image section */}
           <div className="image w-full h-[480px] max-[500px]:h-[200px] my-4">
             <img
-              className="w-full h-full rounded-[12px]"
-              src={dataFromParam?.imageUrl}
+              className="w-full h-full rounded-[12px] object-cover"
+              src={dataFromParam?.imageUrl || imageNotAvailable?.src}
             />
           </div>
 
