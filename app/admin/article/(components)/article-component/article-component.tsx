@@ -20,6 +20,7 @@ import { deleteArticle, getAllArticles, getAllCategory } from '@/service/admin-s
 import { Article, Articles, Category, Categorys } from '@/types/types-and-interface';
 import { useRouter } from 'next/navigation';
 import { AlertDialogCategory } from '@/components/alert-popup/alert-popup';
+import imageNotAvailable from '../../../../../assets/image not availabe.jpg';
 
 
 // ******** Component Declaration ********
@@ -404,7 +405,7 @@ function ArticleComponent() {
                   {articles?.data?.map((el: Article) => (
                     <TableRow key={el?.id}>
                       <TableCell className="text-center">
-                        <img className="w-10 h-10 rounded-sm m-auto" src={el?.imageUrl} />
+                        <img className="w-10 h-10 rounded-sm m-auto object-cover" src={el?.imageUrl || imageNotAvailable?.src} />
                       </TableCell>
                       <TableCell className="max-w-[140px] break-words whitespace-normal text-[#475569]">{el?.title}</TableCell>
                       <TableCell className="text-center text-[#475569]">{el?.category?.name}</TableCell>

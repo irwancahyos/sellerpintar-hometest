@@ -1,6 +1,7 @@
 // ******** Imports ********
 import { Articles } from "@/types/types-and-interface";
 import { useRouter } from 'next/navigation';
+import imageNotAvailable from '../../../../assets/image not availabe.jpg';
 
 // ******** Local Interace ********
 interface ArticleList {
@@ -72,8 +73,8 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
               <div>
                 <img
                   onClick={() => handleOpenDetailArticle(el?.id ?? '')}
-                  className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] rounded-[12px]"
-                  src={`${el?.imageUrl}`}
+                  className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] rounded-[12px] object-cover"
+                  src={`${el?.imageUrl || imageNotAvailable?.src}`}
                   alt="image of article"
                 />
               </div>
