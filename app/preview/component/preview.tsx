@@ -49,7 +49,7 @@ function PreviewComponent() {
    * Get fetch data to local data edit
    */
   useEffect(() => {
-    const content = sessionStorage.getItem('temporaryContentPreview');
+    const content = localStorage.getItem('temporaryContentPreview');
     const isFromEdit = queryParamsArticle.get('fromEdit') ?? false;
 
     const dataEditCategory: EditData = {
@@ -74,7 +74,7 @@ function PreviewComponent() {
   const handleBackToOriginalRoute = () => {
     if(isFromEdit) {
       router.push(`/admin/article/form?articleId=${dataFromParam?.articleId}&imageUrl=${dataFromParam?.imageUrl}&title=${dataFromParam?.articleTitle}&categoryName=${dataFromParam?.categoryName}&categoryId=${dataFromParam?.categoryId}`)
-      sessionStorage.setItem('temporaryContentPreview', dataFromParam?.articleContent ?? '');
+      localStorage.setItem('temporaryContentPreview', dataFromParam?.articleContent ?? '');
     } else {
       router.push('/admin/article')
     }

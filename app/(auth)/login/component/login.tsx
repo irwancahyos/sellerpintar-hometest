@@ -64,12 +64,12 @@ function LoginComponent() {
 
         const { token, role } = res;
 
-        // set token to local storage
-        localStorage.setItem('tokenSellerPintar', token);
+        // set cookie just a day
+        const maxAge = 60 * 60 * 24;
 
         // update role and toke to cookie in the application
-        document.cookie = `token=${token}; path=/;`;
-        document.cookie = `role=${role}; path=/;`;
+        document.cookie = `token=${token}; path=/; max-age=${maxAge}; secure; samesite=strict`;
+        document.cookie = `role=${role}; path=/; max-age=${maxAge}; secure; samesite=strict`;
 
         toast.success("Login successfully");
 

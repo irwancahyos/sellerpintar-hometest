@@ -101,7 +101,6 @@ function SidebarComponent({isOpenNav, handleNavbarClicked}: SidebarComponent) {
         // Delete sesion and local storage and reload
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
-        localStorage.removeItem('token');
 
         // reset expired
         document.cookie = 'token=; Max-Age=0; path=/;';

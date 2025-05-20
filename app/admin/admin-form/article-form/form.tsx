@@ -56,7 +56,7 @@
      * Get data from url and sesion storage
      */
     useEffect(() => {
-      const content = sessionStorage.getItem('temporaryContentPreview');
+      const content = localStorage.getItem('temporaryContentPreview');
 
       const dataEditCategory: EditData = {
         articleId: queryParamsArticle.get('articleId') ?? '',
@@ -77,7 +77,11 @@
      */
     useEffect(() => {
       if (dataEdit?.categoryId && categorys.length > 0) {
-        setIsEdit(true);
+        
+        if(dataEdit?.articleId && dataEdit?.articleId !== "undefined") {
+          setIsEdit(true);
+        }
+
         reset({
           title: dataEdit.articleTitle,
           categoryId: dataEdit.categoryId,
@@ -167,7 +171,7 @@
    */
   const handlePreviewButtonClicked = () => {
     const categoryName = categorys.filter((el) => el.id === control?._formValues?.categoryId);
-    sessionStorage.setItem('temporaryContentPreview', control?._formValues?.content ?? '');
+    localStorage.setItem('temporaryContentPreview', control?._formValues?.content ?? '');
 
     router.push(
       `/preview?imageUrl=${imageUrl}&title=${control?._formValues?.title}&categoryName=${categoryName}&categoryId=${control?._formValues?.categoryId}&fromEdit=${true}&articleId=${dataEdit?.articleId}`,

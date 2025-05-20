@@ -34,7 +34,7 @@ export async function getAllArticles(title: string, page = 1, limit = 10, catego
 export async function getUserProfile(): Promise<UserProfile> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
 
   try {
     const respon = await axios.get('https://test-fe.mysellerpintar.com/api/auth/profile', {
@@ -75,7 +75,7 @@ export async function  getAllCategory(page:number, limit:number, search?: string
 export async function uploadImage(imageFile: File): Promise<string> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
 
   try {
     const formData = new FormData();
@@ -100,7 +100,7 @@ export async function uploadImage(imageFile: File): Promise<string> {
 export async function createCategory(name: string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.post(
@@ -128,7 +128,7 @@ export async function createCategory(name: string): Promise<Category> {
 export async function editCategory(id: string, name: string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.put(
@@ -157,7 +157,7 @@ export async function editCategory(id: string, name: string): Promise<Category> 
 export async function deleteCategory(id: string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/categories/${id}`, {
@@ -181,7 +181,7 @@ export async function deleteCategory(id: string): Promise<Category> {
 export async function createArticle(title: string, content: string, categoryId: string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.post(`https://test-fe.mysellerpintar.com/api/articles`, {
@@ -207,7 +207,7 @@ export async function createArticle(title: string, content: string, categoryId: 
 export async function editArticle(title: string, content: string, categoryId: string, id:string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.put(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {
@@ -234,7 +234,7 @@ export async function editArticle(title: string, content: string, categoryId: st
 export async function deleteArticle(id: string): Promise<Category> {
 
   // ******** Get token from local storage ********
-  const token = localStorage.getItem('tokenSellerPintar');
+  const token = document?.cookie?.split(';').filter(el => el.trim().startsWith('token')).join('').replace('token=','').trim();
   
   try {
     const respon = await axios.delete(`https://test-fe.mysellerpintar.com/api/articles/${id}`, {
