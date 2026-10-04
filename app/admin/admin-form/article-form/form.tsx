@@ -3,9 +3,9 @@
   // ******** Imports ********
   import GeneralButton from '@/components/button/general-button';
   import InputTypeText from '@/components/input/input-text';
-  import { createArticle, editArticle, getAllCategory, uploadImage } from '@/service/admin-service/admin-service';
-  import { ArrowLeft, ImagePlus } from 'lucide-react';
-  import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+  import { createArticle, editArticle, getAllCategory } from '@/service/admin-service/admin-service';
+  import { ArrowLeft } from 'lucide-react';
+  import React, { useEffect, useRef, useState } from 'react';
   import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
   import QuillEditorComponent, {RichTextEditorHandle} from '@/components/quill-component';
   import { Controller, useForm } from 'react-hook-form';
@@ -29,14 +29,14 @@
 
     // ******** Form schema creatation ********
     const createSchema = z.object({
-      img:  z.string().nonempty("Please enter picture"),
+      img: z.string().optional(),
       title: z.string().nonempty("Please enter title"),
       categoryId: z.string().nonempty("Please enter category"),
       content: z.string().nonempty("Content field cannot be empty"),
     })
 
     // ******** Form Initialization ********
-    const {control, setValue, handleSubmit, reset, trigger, formState:{errors, isValid}} = useForm({
+    const {control, handleSubmit, reset, trigger, formState:{errors, isValid}} = useForm({
       resolver: zodResolver(createSchema),
       defaultValues: {
         img: "",
@@ -46,9 +46,6 @@
       },
       mode: 'all'
     });
-
-    // ******** Local component variable declaration ********
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     // ******** Lifecycle useEffect ********
 
@@ -111,7 +108,7 @@
   
           while (true) {
             const res = await getAllCategory(page, limit);
-            allDataCategory = [...allDataCategory, ...res?.data];
+            allDataCategory = [...allDataCategory, ...(res.data ?? [])];
   
             // the looping will stop when get current page same with total page, mean the data is unavailable
             if (res?.currentPage === res?.totalPages) break;
@@ -150,16 +147,6 @@
   };
 
   /**
-   * Function open upload image
-   */
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-      fileInputRef.current.click();
-    }
-  };
-
-  /**
    * Function back to article
    */
   const handleClickButtonBack = () => {
@@ -184,7 +171,7 @@
   const handleSubmitFormButton = async () => {
     if (isValid) {
       try {
-        const res = isEdit ? await editArticle(control?._formValues?.title, control?._formValues?.content, control?._formValues?.categoryId, dataEdit?.articleId) : await createArticle(control?._formValues?.title, control?._formValues?.content, control?._formValues?.categoryId);
+        const res = isEdit ? await editArticle(control?._formValues?.title, control?._formValues?.content, control?._formValues?.categoryId, dataEdit?.articleId, imageUrl || undefined) : await createArticle(control?._formValues?.title, control?._formValues?.content, control?._formValues?.categoryId, imageUrl || undefined);
 
         if(res) {
           reset();
@@ -196,22 +183,6 @@
     }
   }
 
-  /**
-   * Function handle when file changed
-   */
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] ?? null;
-    if(!file) return;
-
-    try {
-      const resUrl = await uploadImage(file);
-      setImageUrl(resUrl);
-      setValue('img', resUrl);
-    } catch(e) {
-      throw new Error(`Error when upload image in component: ${e}`);
-    } 
-    };
-    
     return (
       <div className="w-full min-h-[84vh]">
         {/* Button back and title section  */}
@@ -233,45 +204,9 @@
           <div className="w-full">
             <p className="mb-1 font-semibold">Thumbnails</p>
 
-            {/* Box input section  */}
-            <div className="w-[223px] h-[163px]">
-              {/* input file but hidden the display */}
-              <input type="file" accept=".jpg,.jpeg,.png" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-
-              {/* when image url exist so render the image instead render choose image */}
-              {imageUrl ? (
-                <div className="rounded-[12px] min-w-full min-h-full bg-[#FFFFFF] flex flex-col items-center border border-[#CBD5E1]">
-                  <img src={imageUrl} alt="Uploaded Image" className="w-[199px] mt-2.5 rounded-[6px] h-[115px] object-cover" />
-                  <div className="w-full justify-center h-[16px] mt-1.5 flex gap-2">
-                    <button
-                      type="button"
-                      onClick={handleClick}
-                      className="text-[#2563EB] cursor-pointer border-b border-b-[#2563EB] pb-4 text-sm"
-                    >
-                      Changes
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setImageUrl('')}
-                      className="text-[#EF4444] cursor-pointer border-b border-b-[#EF4444] pb-4 text-sm"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  className="h-full rounded-[12px] w-full bg-[#FFFFFF] border-dashed border border-[#CBD5E1] cursor-pointer flex flex-col justify-center items-center text-center p-[12px] hover:opacity-70 relative"
-                  onClick={handleClick}
-                >
-                  <ImagePlus className="w-[20px] text-[#64748B] h-[20px] mb-2" />
-                  <div className="text-[#64748B] text-sm">
-                    <p className="border-b-[0.01rem] border-[#64748bab] inline-block">Click to select files</p>
-                    <p>Support File Type: jpg or png</p>
-                  </div>
-                </div>
-              )}
-              {errors?.img && <p className="text-sm ml-1 text-red-500">{errors?.img?.message}</p>}
+            {/* ponytail: uploads are deferred because the original API never linked them to articles; add Cloudinary or Vercel Blob when images must persist. */}
+            <div className="w-[223px] h-[163px] rounded-[12px] border border-dashed border-[#CBD5E1] bg-[#FFFFFF] p-[12px] text-center text-sm text-[#64748B]">
+              {imageUrl ? <img src={imageUrl} alt="Article thumbnail" className="h-full w-full rounded-[6px] object-cover" /> : <p className="pt-12">Image upload is not available yet</p>}
             </div>
 
             {/* Title input section  */}
