@@ -91,7 +91,7 @@ function ArticleComponent() {
 
         while (true) {
           const res = await getAllCategory(page, limit);
-          allDataCategory = [...allDataCategory, ...res.data];
+          allDataCategory = [...allDataCategory, ...(res.data ?? [])];
 
           // the looping will stop when get current page same with total page, mean the data is unavailable
           if (res?.currentPage === res?.totalPages) break;
@@ -380,7 +380,7 @@ function ArticleComponent() {
           <div>
             <GeneralButton
               onClick={handleAddArticle}
-              styles="bg-[#2563EB] cursor-pointer rounded-sm w-full text-white text-sm px-2 py-[0.45rem] flex items-center gap-1"
+              styles="bg-[#2563EB] cursor-pointer rounded-sm w-full text-white text-sm px-3 py-[0.45rem] flex items-center gap-1"
               text="Add Articles"
               img={<PlusIcon size={16} />}
             />

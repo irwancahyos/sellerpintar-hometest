@@ -69,23 +69,21 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-5">
           {/* Card 1 */}
           {articles?.data?.map((el) => (
-            <div key={el?.id} className="h-full">
-              <div>
-                <img
-                  onClick={() => handleOpenDetailArticle(el?.id ?? '')}
-                  className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] rounded-[12px] object-cover"
-                  src={`${el?.imageUrl || imageNotAvailable?.src}`}
-                  alt="image of article"
-                />
-              </div>
-              <div className="text-[#475569] my-2 text-sm">{formatDate(el?.createdAt ?? '')}</div>
-              <div>
+            <div key={el?.id} className="h-full overflow-hidden rounded-[12px] border border-[#E2E8F0] bg-white transition-shadow hover:shadow-md">
+              <img
+                onClick={() => handleOpenDetailArticle(el?.id ?? '')}
+                className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] object-cover"
+                src={`${el?.imageUrl || imageNotAvailable?.src}`}
+                alt="image of article"
+              />
+              <div className="p-5">
+                <div className="text-[#475569] mb-2 text-sm">{formatDate(el?.createdAt ?? '')}</div>
                 <h3 className="text-lg font-semibold break-words text-[#0F172A]">{el?.title}</h3>
                 <p className="text-[#475569] my-2 text-ellipsis line-clamp-2" dangerouslySetInnerHTML={{ __html: el?.content || '' }}></p>
-              </div>
-              <div className="flex gap-2 mt-2">
-                <span className="bg-[#BFDBFE] rounded-full px-[12px] py-[4px] text-[#1E3A8A] text-sm">{el?.category?.name}</span>
-                <span className="bg-[#BFDBFE] rounded-full px-[12px] py-[4px] text-[#1E3A8A] text-sm">design</span>
+                <div className="flex gap-2 mt-2">
+                  <span className="bg-[#BFDBFE] rounded-full px-[12px] py-[4px] text-[#1E3A8A] text-sm">{el?.category?.name}</span>
+                  <span className="bg-[#BFDBFE] rounded-full px-[12px] py-[4px] text-[#1E3A8A] text-sm">design</span>
+                </div>
               </div>
             </div>
           ))}
