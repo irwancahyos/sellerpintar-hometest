@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   if (!THUMBNAIL_ALLOWED_TYPES.includes(file.type as (typeof THUMBNAIL_ALLOWED_TYPES)[number])) {
     return errorResponse(400, 'Only JPG and PNG images are allowed');
   }
-  if (file.size > THUMBNAIL_MAX_BYTES) return errorResponse(413, 'Image must be 5 MB or smaller');
+  if (file.size > THUMBNAIL_MAX_BYTES) return errorResponse(413, 'Image must be 1 MB or smaller');
 
   const buffer = Buffer.from(await file.arrayBuffer());
   if (buffer.length > THUMBNAIL_MAX_BYTES) return errorResponse(413, 'Image must be 5 MB or smaller');

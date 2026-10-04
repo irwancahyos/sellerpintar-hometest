@@ -57,8 +57,8 @@ describe('article thumbnail upload route', () => {
     expect(response.status).toBe(400);
   });
 
-  it('rejects files over 5 MB', async () => {
-    const largeFile = new File([new Uint8Array(5 * 1024 * 1024 + 1)], 'large.jpg', { type: 'image/jpeg' });
+  it('rejects files over 1 MB', async () => {
+    const largeFile = new File([new Uint8Array(1024 * 1024 + 1)], 'large.jpg', { type: 'image/jpeg' });
     const response = await POST(request(largeFile, await adminHeaders()));
 
     expect(response.status).toBe(413);

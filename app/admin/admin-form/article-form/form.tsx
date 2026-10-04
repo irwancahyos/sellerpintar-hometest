@@ -5,7 +5,7 @@
   import InputTypeText from '@/components/input/input-text';
   import { createArticle, editArticle, getAllCategory, uploadArticleImage } from '@/service/admin-service/admin-service';
   import { ArrowLeft, ImagePlus } from 'lucide-react';
-  import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+  import { ChangeEvent, useEffect, useRef, useState } from 'react';
   import toast, { Toaster } from 'react-hot-toast';
   import { THUMBNAIL_ALLOWED_TYPES, THUMBNAIL_MAX_BYTES } from '@/lib/validation';
   import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -159,7 +159,7 @@
     if (!THUMBNAIL_ALLOWED_TYPES.includes(file.type as (typeof THUMBNAIL_ALLOWED_TYPES)[number])) {
       toast.error('Only JPG and PNG images are allowed');
     } else if (file.size > THUMBNAIL_MAX_BYTES) {
-      toast.error('Image must be 5 MB or smaller');
+      toast.error('Image must be 1 MB or smaller');
     } else {
       setIsUploading(true);
       try {
@@ -235,8 +235,8 @@
             <p className="mb-1 font-semibold">Thumbnails</p>
 
             <input ref={fileInputRef} type="file" accept="image/jpeg,image/png" onChange={handleImageChange} className="hidden" />
-            <button type="button" onClick={handleImageClick} disabled={isUploading} className="w-[223px] h-[163px] rounded-[12px] border border-dashed border-[#CBD5E1] bg-[#FFFFFF] p-[12px] text-center text-sm text-[#64748B] disabled:cursor-wait disabled:opacity-60">
-              {imageUrl ? <img src={imageUrl} alt="Article thumbnail" className="h-full w-full rounded-[6px] object-cover" /> : <><ImagePlus className="mx-auto mt-9 mb-2 h-5 w-5" /><p>{isUploading ? 'Uploading thumbnail...' : 'Click to select JPG or PNG'}</p><p>Maximum size: 5 MB</p></>}
+            <button type="button" onClick={handleImageClick} disabled={isUploading} className="w-[223px] h-[163px] rounded-[12px] border border-dashed border-[#CBD5E1] bg-[#FFFFFF] p-[12px] text-center text-sm text-[#64748B] disabled:cursor-wait disabled:opacity-60 hover:cursor-pointer">
+              {imageUrl ? <img src={imageUrl} alt="Article thumbnail" className="h-full w-full rounded-[6px] object-cover" /> : <><ImagePlus className="mx-auto mt-9 mb-2 h-5 w-5" /><p>{isUploading ? 'Uploading thumbnail...' : 'Click to select JPG or PNG'}</p><p>Maximum size: 1 MB</p></>}
             </button>
 
             {/* Title input section  */}
@@ -270,6 +270,7 @@
                 render={({ field: { onChange, value } }) => (
                   <Select
                     value={value}
+                    disabled={categorys.length === 0}
                     onValueChange={(selectedValue) => {
                       onChange(selectedValue);
                     }}
@@ -291,13 +292,15 @@
               />
 
               {errors?.categoryId?.message && <p className="text-sm ml-1 text-red-500">{errors?.categoryId?.message}</p>}
-              <p className="text-sm text-[#64748B] mt-0.5">
-                The existing category list can be seen in the{' '}
-                <span className="text-[#2563EB]">
-                  <a href="#">category</a>
-                </span>{' '}
-                menu
-              </p>
+              {categorys.length === 0 ? (
+                <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-[#FEF3C7] px-3 py-1 text-sm text-[#92400E]">
+                  No categories yet. <button type="button" onClick={() => router.push('/admin/category')} className="font-semibold underline">Create a category first</button>.
+                </div>
+              ) : (
+                <p className="text-sm text-[#64748B] mt-0.5">
+                  The existing category list can be seen in the <button type="button" onClick={() => router.push('/admin/category')} className="text-[#2563EB] underline">category</button> menu.
+                </p>
+              )}
             </div>
 
             <div className="w-full mt-6">

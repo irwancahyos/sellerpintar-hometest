@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const THUMBNAIL_MAX_BYTES = 5 * 1024 * 1024;
+export const THUMBNAIL_MAX_BYTES = 1024 * 1024;
 export const THUMBNAIL_ALLOWED_TYPES = ['image/jpeg', 'image/png'] as const;
 
 export const roleSchema = z.enum(['Admin', 'User']);
