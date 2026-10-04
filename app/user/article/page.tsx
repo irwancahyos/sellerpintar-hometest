@@ -142,7 +142,7 @@ function UserArticle() {
 
         while (true) {
           const res = await getAllCategory(page, limit);
-          allDataCategory = [...allDataCategory, ...res.data];
+          allDataCategory = [...allDataCategory, ...(res.data ?? [])];
 
           // the looping will stop when get current page same with total page, mean the data is unavailable
           if (res?.currentPage === res?.totalPages) break;

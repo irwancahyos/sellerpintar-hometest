@@ -41,7 +41,7 @@ function AticleDetailComponent() {
     const getOneArticle = async () => {
       const res = await getArticleById(dataFromParamId);
       if (res) {
-        setDataArticle(res?.data[0]);
+        setDataArticle(res);
       }
     };
     
