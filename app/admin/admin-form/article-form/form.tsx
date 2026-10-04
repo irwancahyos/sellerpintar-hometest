@@ -293,8 +293,8 @@
 
               {errors?.categoryId?.message && <p className="text-sm ml-1 text-red-500">{errors?.categoryId?.message}</p>}
               {categorys.length === 0 ? (
-                <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-[#FEF3C7] px-3 py-1 text-sm text-[#92400E]">
-                  No categories yet. <button type="button" onClick={() => router.push('/admin/category')} className="font-semibold underline">Create a category first</button>.
+                <div className="mt-2 inline-flex items-center gap-1 text-xs text-[#92400E]">
+                  No categories yet. <button type="button" onClick={() => router.push('/admin/category')} className="font-semibold underline hover:cursor-pointer">Create a category first</button>.
                 </div>
               ) : (
                 <p className="text-sm text-[#64748B] mt-0.5">

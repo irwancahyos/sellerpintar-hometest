@@ -69,7 +69,7 @@ function ArticleList({articles, isLoading = false}: ArticleList) {
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-5">
           {/* Card 1 */}
           {articles?.data?.map((el) => (
-            <div key={el?.id} className="h-full overflow-hidden rounded-[12px] border border-[#E2E8F0] bg-white transition-shadow hover:shadow-md">
+            <div key={el?.id} className="h-full overflow-hidden rounded-[12px] bg-white shadow-sm transition-shadow hover:shadow-md">
               <img
                 onClick={() => handleOpenDetailArticle(el?.id ?? '')}
                 className="w-full hover:opacity-70 cursor-pointer h-[240px] max-[1100px]:h-[190px] max-[900px]:h-[170px] max-[750px]:h-[250px] object-cover"
