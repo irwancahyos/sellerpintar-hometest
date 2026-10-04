@@ -10,7 +10,7 @@ const { axios } = vi.hoisted(() => ({
 vi.mock('axios', () => ({ default: axios }));
 
 import { loginUser } from '@/lib/api/auth';
-import { getAllArticles } from '@/service/admin-service/admin-service';
+import { getAllArticles, uploadArticleImage } from '@/service/admin-service/admin-service';
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -33,5 +33,18 @@ describe('client API services', () => {
     expect(axios.get).toHaveBeenCalledWith('/api/articles', {
       params: { page: 1, limit: 9, category: 'category-1', title: 'next' },
     });
+  });
+
+  it('uploads article images through the authenticated local endpoint', async () => {
+    vi.stubGlobal('document', { cookie: 'token=token-1' });
+    axios.post.mockResolvedValue({ data: { imageUrl: 'https://res.cloudinary.com/test/thumbnail.jpg' } });
+
+    const imageUrl = await uploadArticleImage(new File(['image'], 'thumbnail.jpg', { type: 'image/jpeg' }));
+
+    expect(imageUrl).toBe('https://res.cloudinary.com/test/thumbnail.jpg');
+    expect(axios.post).toHaveBeenCalledWith('/api/articles/upload', expect.any(FormData), {
+      headers: { Authorization: 'Bearer token-1' },
+    });
+    vi.unstubAllGlobals();
   });
 });

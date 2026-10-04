@@ -60,6 +60,17 @@ export async function deleteCategory(id: string): Promise<Category> {
   }
 }
 
+export async function uploadArticleImage(file: File): Promise<string> {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await axios.post('/api/articles/upload', formData, { headers: authHeaders() });
+    return response.data.imageUrl;
+  } catch (error) {
+    throw new Error(`Error when upload article image: ${error}`);
+  }
+}
+
 export async function createArticle(title: string, content: string, categoryId: string, imageUrl?: string): Promise<Article> {
   try {
     const response = await axios.post('/api/articles', { title, categoryId, content, imageUrl }, { headers: authHeaders() });

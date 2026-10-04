@@ -37,7 +37,22 @@ What is the feature ?????
 * Admin : (create, delete, edit) Article and Category
 * User : Able to see the article
 
+## Local setup
+
+1. Install dependencies with `npm install`.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL`, `JWT_SECRET`, and the three Cloudinary values.
+3. Apply the database migration with `npx prisma migrate deploy`.
+4. Start the app with `npm run dev`.
+
 ## Deploy on Vercel
+
+Add these environment variables in Vercel Project Settings for both Production and Preview:
+
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
 
 The easiest way to try the project in demo in the next right [Vercel Platform](https://sellerpintar-hometest.vercel.app/login) .
 
