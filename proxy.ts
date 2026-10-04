@@ -1,32 +1,29 @@
-// ******** Imports ********
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-// ******** Function Declaration ********
-export function proxy(request: NextRequest) {
+import { jwtVerify } from 'jose';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
+function redirectToLogin(request: NextRequest) {
+  return NextResponse.redirect(new URL('/login', request.url));
+}
+
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
-  const role = request.cookies.get('role')?.value;
-
-  if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!token || !jwtSecret) return redirectToLogin(request);
 
   try {
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret));
+    const isAdminPath = request.nextUrl.pathname.startsWith('/admin');
+    const isUserPath = request.nextUrl.pathname.startsWith('/user');
 
-    // Optional: check role
-    if (role === 'Admin' && request.nextUrl.pathname.startsWith('/admin')) {
+    if ((isAdminPath && payload.role === 'Admin') || (isUserPath && payload.role === 'User')) {
       return NextResponse.next();
     }
-
-    if (role === 'User' && request.nextUrl.pathname.startsWith('/user')) {
-      return NextResponse.next();
-    }
-
-    // Role doesn't match path
-    return NextResponse.redirect(new URL('/login', request.url));
-  } catch (err) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  } catch {
+    return redirectToLogin(request);
   }
+
+  return redirectToLogin(request);
 }
 
 export const config = {
